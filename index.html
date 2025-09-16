@@ -2,38 +2,431 @@
 <html lang="en">
 <head>
   <!-- Firebase App -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-<!-- Firebase Auth -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-<!-- Firebase Firestore -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+  <meta charset="UTF-8">
+  <title>Prashuk Jain Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts & Remixicon (for icons) -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    /* ... paste all your CSS as in original ... */
+    /* For brevity, the CSS is the same as in your provided code */
+    /* (No change to layout, colors, etc.) */
+    :root {
+      --primary: #18e1ef;
+      --primary2: #7f53ac;
+      --gradient: linear-gradient(90deg, #18e1ef 0%, #7f53ac 100%);
+      --box-bg: rgba(255,255,255,0.07);
+      --box-border: rgba(255,255,255,0.14);
+      --footer-bg: transparent;
+    }
+    html { scroll-behavior: smooth;}
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(circle at 0% 0%, #372269 0%, #431273 100%);
+      color: #fff;
+      margin: 0; padding: 0; min-height: 100vh;
+    }
+    /* ... (rest of your CSS unchanged, just paste below the above) ... */
+    /* (Copy all CSS from your provided code into here) */
+  </style>
+</head>
+<body>
+  <!-- Feedback Button -->
+  <button class="btn" onclick="document.getElementById('loginModal').style.display='flex'">
+    Give Feedback
+  </button>
 
-<script>
-  // 🔑 Replace with your Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyDf4606WKc5kgLOuzOpFJKC8k0jzHCSl-k",
-    authDomain: "portfolio-1bbaf.firebaseapp.com",
-    projectId: "portfolio-1bbaf",
-    storageBucket: "portfolio-1bbaf.firebasestorage.app",
-    messagingSenderId: "823521561983",
-    appId: "1:823521561983:web:c1f06db353a6e9df01de4a",
-    measurementId: "G-Z59ZCCMY9X"
-  };
+  <!-- Modal for Login/Signup/Feedback -->
+  <div id="loginModal" style="display:none; position:fixed; top:0; left:0;
+      width:100%; height:100%; background:rgba(0,0,0,0.7);
+      align-items:center; justify-content:center; z-index:2000;">
+    <div style="background:#fff; padding:30px; border-radius:12px; width:320px; color:#000;">
+      <h3 id="modalTitle">Login</h3>
+      <!-- Login/Signup Form -->
+      <div id="authForm">
+        <input type="email" id="email" placeholder="Enter email" style="width:100%; margin:8px 0; padding:8px;">
+        <input type="password" id="password" placeholder="Enter password" style="width:100%; margin:8px 0; padding:8px;">
+        <button onclick="login()" style="padding:10px 20px; margin-top:10px;">Login</button>
+        <button onclick="signup()" style="padding:10px 20px; margin-top:10px; background:#18e1ef; color:white;">Sign Up</button>
+      </div>
+      <div id="feedbackForm" style="display:none;">
+        <textarea id="feedbackText" placeholder="Enter your feedback..." style="width:100%; height:100px; margin:8px 0; padding:8px;"></textarea>
+        <button onclick="submitFeedback()" style="padding:10px 20px; margin-top:10px;">Submit Feedback</button>
+      </div>
+      <button onclick="document.getElementById('loginModal').style.display='none'" style="padding:10px 20px; margin-top:10px; background:#ccc;">Close</button>
+    </div>
+  </div>
 
-  // Initialize Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-</script>
-<script>
-  // Login
-  function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  <!-- Header Navigation with Logo -->
+  <header>
+    <span class="pj-logo-header">PJ</span>
+    <span class="logo-site">Prashuk Jain</span>
+    <nav>
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-    auth.signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        alert("Login successful!");
+  <main id="home">
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <img src="profile.jpg" class="profile-img" alt="Prashuk Jain Profile Photo">
+      <div class="hero-content">
+        <h1>Hi, I'm <span class="gradient">Prashuk Jain</span></h1>
+        <h2>Problem Solver &bull; Coder</h2>
+        <p>Class 12 PCM + Computer Science student with a deep passion for technology, coding, and building innovative solutions. Currently preparing for JEE while exploring the exciting world of programming.</p>
+        <div class="buttons">
+          <a href="#projects" class="btn">View My Projects</a>
+          <a href="#contact" class="btn secondary">Get In Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <div class="section-title">About Me</div>
+      <div class="section-desc">Passionate about technology and committed to excellence in academics</div>
+      <div class="about-content">
+        <div class="about-card">
+          <h3><i class="ri-graduation-cap-line"></i> Academic Excellence</h3>
+          <div class="about-item">Class 10: <strong>92% overall</strong></div>
+          <div class="about-item">Mathematics: <strong>97%</strong></div>
+          <div class="about-item">Currently pursuing Class 12 (PCM + CS)</div>
+          <div class="about-item">JEE preparation through Physics Wallah</div>
+        </div>
+        <div class="about-card">
+          <h3><i class="ri-lightbulb-flash-line"></i> Goals &amp; Vision</h3>
+          <div class="about-item">
+            Aspiring to pursue a career in technology and engineering, combining strong academic foundation with practical programming skills to create innovative solutions.
+          </div>
+        </div>
+        <div class="about-img-wrap">
+          <img class="about-img" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=500&q=80" alt="Coding Illustration">
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+      <div class="section-title">Technical Skills</div>
+      <div class="section-desc">Building a strong foundation in programming and technology</div>
+      <div class="skills-boxes">
+        <div class="skill-card">
+          <span class="skill-icon"><i class="ri-code-box-line"></i></span>
+          <h4>Programming</h4>
+          <div class="prog-bars">
+            <div style="font-weight:600; margin-bottom:3px;">Python <span style="float:right;">75%</span></div>
+            <div style="background:#443368;border-radius:8px;height:9px;width:100%;margin-bottom:10px;">
+              <div style="height:100%;border-radius:8px;background:var(--gradient);width:75%"></div>
+            </div>
+            <div style="font-weight:600; margin-bottom:3px;">HTML <span style="float:right;">65%</span></div>
+            <div style="background:#443368;border-radius:8px;height:9px;width:100%;margin-bottom:10px;">
+              <div style="height:100%;border-radius:8px;background:var(--gradient);width:65%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon"><i class="ri-database-2-line"></i></span>
+          <h4>Libraries &amp; Tools</h4>
+          <ul style="text-align:left; list-style:disc; padding-left:14px;">
+            <li>Tkinter (GUI)</li>
+            <li>MySQL Database</li>
+            <li>Matplotlib</li>
+            <li>Turtle Graphics</li>
+          </ul>
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon"><i class="ri-lightbulb-line"></i></span>
+          <h4>Creative Skills</h4>
+          <ul style="text-align:left;list-style:disc;padding-left:14px;">
+            <li>Canva Design</li>
+            <li>CapCut Editing</li>
+            <li>File Handling</li>
+            <li>Problem Solving</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements & Stats -->
+    <section id="achievements">
+      <div class="section-title">Achievements &amp; Milestones</div>
+      <div class="section-desc">Currently Class 12 &bull; JEE Aspirant &bull; Future Engineer</div>
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="ri-medal-line"></i></div>
+          <div class="stat-value">97</div>
+          <div class="stat-label">Mathematics Score (%)</div>
+          <div class="stat-desc">Exceptional performance in Class 10 Mathematics</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="ri-terminal-window-line"></i></div>
+          <div class="stat-value">6</div>
+          <div class="stat-label">Projects Completed</div>
+          <div class="stat-desc">Self-driven programming projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="ri-vip-crown-2-line"></i></div>
+          <div class="stat-value">92</div>
+          <div class="stat-label">Overall Class 10 (%)</div>
+          <div class="stat-desc">Strong academic foundation across all subjects</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interests / Passions Section -->
+    <section>
+      <div class="interests">Interests &amp; Passions</div>
+      <div class="project-list" style="margin-bottom:10px;">
+        <div class="skill-card">
+          <span class="skill-icon"><i class="ri-macbook-line"></i></span>
+          <h4>Programming &amp; Development</h4>
+          <div>Creating useful tools and applications through code</div>
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon"><i class="ri-brain-line"></i></span>
+          <h4>Mathematics &amp; Logic</h4>
+          <div>Exploring mathematical concepts and logical reasoning</div>
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon"><i class="ri-book-open-line"></i></span>
+          <h4>Educational Content</h4>
+          <div>Creating engaging content and learning materials</div>
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon"><i class="ri-rocket-2-line"></i></span>
+          <h4>Future Technologies</h4>
+          <div>AI, automation, and innovative software solutions</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <div class="section-title">Featured Projects</div>
+      <div class="section-desc">Showcasing my journey in programming and development</div>
+      <!-- First row -->
+      <div class="project-list">
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80" class="project-img" alt="Mini Web page project">
+          <span class="proj-tag">Web Design</span>
+          <h5>Mini Web Page using HTML</h5>
+          <p>Responsive basic website built using pure HTML showcasing personal profile and links with clean, structured design.</p>
+          <div class="proj-tags-wrap">
+            <span class="proj-badge">HTML</span>
+            <span class="proj-badge">CSS</span>
+            <span class="proj-badge">Responsive</span>
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" class="project-img" alt="Voiceover Script Video">
+          <span class="proj-tag" style="background: #7f53ac;">Video Content</span>
+          <h5>Short Video with Voiceover Script</h5>
+          <p>Creative script-based video combining Python programming stories with visual effects and voice narration using mobile editing tools.</p>
+          <div class="proj-tags-wrap">
+            <span class="proj-badge">CapCut</span>
+            <span class="proj-badge">Canva</span>
+            <span class="proj-badge">Creative</span>
+          </div>
+        </div>
+      </div>
+      <!-- Second row -->
+      <div class="project-list">
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" class="project-img" alt="Turtle Animation">
+          <span class="proj-tag" style="background: #36d19d;">Creative Code</span>
+          <h5>Python Turtle Art &amp; Animation</h5>
+          <p>Colorful animated spiral patterns and artistic designs created using Python's turtle graphics and colorsys modules for visual programming.</p>
+          <div class="proj-tags-wrap">
+            <span class="proj-badge">Turtle</span>
+            <span class="proj-badge">Animation</span>
+            <span class="proj-badge">Creative</span>
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?auto=format&fit=crop&w=400&q=80" class="project-img" alt="File Data Project">
+          <span class="proj-tag" style="background: #54f082;">Data Handling</span>
+          <h5>CSV &amp; Binary File Creator</h5>
+          <p>Demonstration of file creation and data handling using Python's csv and pickle modules for school-level data management projects.</p>
+          <div class="proj-tags-wrap">
+            <span class="proj-badge">CSV</span>
+            <span class="proj-badge">Pickle</span>
+            <span class="proj-badge">Data</span>
+          </div>
+        </div>
+      </div>
+      <!-- Third row -->
+      <div class="project-list">
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80" class="project-img" alt="Tourism Guide Project">
+          <span class="proj-tag" style="background: #59dac0;">Python + MySQL</span>
+          <h5>India Tourism Guide</h5>
+          <p>Interactive GUI application featuring a clickable map of India with detailed information about each state's culture, traditions, and tourist attractions.</p>
+          <div class="proj-tags-wrap">
+            <span class="proj-badge">Tkinter</span>
+            <span class="proj-badge">MySQL</span>
+            <span class="proj-badge">GUI</span>
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" class="project-img" alt="Wi-Fi Password Finder">
+          <span class="proj-tag" style="background: #178bee;">Python Script</span>
+          <h5>Wi-Fi Password Finder</h5>
+          <p>Educational Python script that retrieves and displays previously saved Wi-Fi passwords from the system for learning purposes.</p>
+          <div class="proj-tags-wrap">
+            <span class="proj-badge">Python</span>
+            <span class="proj-badge">System</span>
+            <span class="proj-badge">Educational</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <div class="contact-title">Get In Touch</div>
+      <div class="contact-desc">Let's connect and explore opportunities together</div>
+      <div class="contact-methods">
+        <!-- EMAIL CARD -->
+        <div class="contact-card email">
+          <a href="mailto:prashukjain983@gmail.com" title="Email">
+            <span class="contact-icon"><i class="ri-mail-fill"></i></span>
+            <span>
+              <span class="info-label">Email</span><br>
+              <span class="contact-details">prashukjain983@gmail.com</span>
+            </span>
+          </a>
+        </div>
+        <!-- YOUTUBE CARD -->
+        <div class="contact-card youtube">
+          <a href="https://youtube.com/@pythoncodingwithme?si=CR7NAUb9p6yKHqFr" target="_blank" rel="noopener" title="YouTube channel">
+            <span class="contact-icon"><i class="ri-youtube-fill"></i></span>
+            <span>
+              <span class="info-label">YouTube</span><br>
+              <span class="contact-details" style="text-transform:uppercase;">PYTHON CODING WITH ME</span>
+            </span>
+          </a>
+        </div>
+        <!-- PHONE CARD -->
+        <div class="contact-card phone">
+          <a href="tel:+918449999816" title="Call phone number">
+            <span class="contact-icon"><i class="ri-phone-fill"></i></span>
+            <span>
+              <span class="info-label">Phone</span><br>
+              <span class="contact-details">+91 84499 99816</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>Currently Class 12 &bull; JEE Aspirant &bull; Future Engineer</div>
+    <div class="footer-line"></div>
+    <div class="footer-main">
+      &copy; 2025 Prashuk Jain. Built with HTML, CSS, and Python
+      <span class="pj-logo-footer">PJ</span>
+    </div>
+    <div class="footer-sub">
+      Crafted with <span class="footer-heart">&#10084;</span> by a passionate student developer
+    </div>
+  </footer>
+
+  <!-- firebase and feedback logic -->
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDf4606WKc5kgLOuzOpFJKC8k0jzHCSl-k",
+      authDomain: "portfolio-1bbaf.firebaseapp.com",
+      projectId: "portfolio-1bbaf",
+      storageBucket: "portfolio-1bbaf.appspot.com",
+      messagingSenderId: "823521561983",
+      appId: "1:823521561983:web:c1f06db353a6e9df01de4a",
+      measurementId: "G-Z59ZCCMY9X"
+    };
+    // Initialize Firebase
+    if (typeof firebase === 'undefined') {
+      alert('Firebase SDK did not load correctly.');
+    } else {
+      firebase.initializeApp(firebaseConfig);
+      var auth = firebase.auth();
+      var db = firebase.firestore();
+    }
+
+    // Login function
+    function login() {
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(function(userCredential) {
+          alert("Login successful!");
+          showFeedbackForm();
+        })
+        .catch(function(error) {
+          alert("Error: " + error.message);
+        });
+    }
+    // Signup function
+    function signup() {
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(function(userCredential) {
+          alert("Signup successful! You can now log in.");
+        })
+        .catch(function(error) {
+          alert("Error: " + error.message);
+        });
+    }
+    // Show feedback form after login
+    function showFeedbackForm() {
+      document.getElementById("authForm").style.display = "none";
+      document.getElementById("feedbackForm").style.display = "block";
+      document.getElementById("modalTitle").innerText = "Submit Feedback";
+    }
+    // Submit feedback to Firestore
+    function submitFeedback() {
+      var feedbackText = document.getElementById("feedbackText").value;
+      var user = auth.currentUser;
+      if (!feedbackText) {
+        alert("Please write some feedback!");
+        return;
+      }
+      if (!user) {
+        alert("You must be logged in to submit feedback.");
+        return;
+      }
+      db.collection("feedbacks").add({
+        userEmail: user.email,
+        feedback: feedbackText,
+        timestamp: new Date()
+      }).then(function() {
+        alert("Feedback submitted successfully!");
+        document.getElementById("loginModal").style.display = "none";
+        // Optionally reset forms
+        document.getElementById("authForm").style.display = "block";
+        document.getElementById("feedbackForm").style.display = "none";
+        document.getElementById("modalTitle").innerText = "Login";
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("feedbackText").value = "";
+      }).catch(function(error) {
+        alert("Error saving feedback: " + error.message);
+      });
+    }
+  </script>
+</body>
+</html>
         showFeedbackForm();
       })
       .catch((error) => {
